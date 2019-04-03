@@ -1,15 +1,13 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using EavSandbox.Web.DataAccess;
+﻿using EavSandbox.Web.DataAccess;
 using EavSandbox.Web.DataAccess.EntityFramework;
 using EavSandbox.Web.DataAccess.EntityFramework.Conversion;
-using EavSandbox.Web.EntityFramework.Context;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace EavSandbox.Web
 {
@@ -25,8 +23,8 @@ namespace EavSandbox.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var connection = Configuration.GetConnectionString("db");
-            services.AddDbContext<EavContext>(options => options.UseSqlServer(connection));
+            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddScoped<ContextFactory>();
             services.AddTransient<IEntityConverter, EntityConverter>();
             services.AddTransient<IEavRepository, EntityFrameworkEavRepository>();
 

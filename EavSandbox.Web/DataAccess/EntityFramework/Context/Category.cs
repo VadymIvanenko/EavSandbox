@@ -4,6 +4,9 @@ using System.Collections.ObjectModel;
 
 namespace EavSandbox.Web.EntityFramework.Context
 {
+    /// <summary>
+    /// Represents kind of the entity (like Patient, Operation, etc)
+    /// </summary>
     public class Category
     {
         public int Id { get; set; }

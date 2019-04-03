@@ -3,6 +3,9 @@ using System.Collections.ObjectModel;
 
 namespace EavSandbox.Web.EntityFramework.Context
 {
+    /// <summary>
+    /// Represents the data record (object) in EAV database.
+    /// </summary>
     public class Entity
     {
         public int Id { get; set; }

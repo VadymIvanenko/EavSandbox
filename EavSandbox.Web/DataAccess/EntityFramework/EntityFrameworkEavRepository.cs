@@ -12,9 +12,9 @@ namespace EavSandbox.Web.DataAccess.EntityFramework
         private readonly EavContext _context;
         private readonly IEntityConverter _entityConverter;
 
-        public EntityFrameworkEavRepository(EavContext context, IEntityConverter entityConverter)
+        public EntityFrameworkEavRepository(ContextFactory contextFactory, IEntityConverter entityConverter)
         {
-            _context = context;
+            _context = contextFactory.CreateContext();
             _entityConverter = entityConverter;
         }
 
@@ -66,6 +66,9 @@ namespace EavSandbox.Web.DataAccess.EntityFramework
             await _context.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// Actualizes the entity (foreign keys, linked references).
+        /// </summary>
         private async Task<Entity> ActualizeReferencesAsync(Entity e)
         {
             Entity ActualizeReferences(Entity entity)
@@ -90,6 +93,9 @@ namespace EavSandbox.Web.DataAccess.EntityFramework
             return ActualizeReferences(e);
         }
 
+        /// <summary>
+        /// Gets category or creates new one.
+        /// </summary>
         private Category GetOrCreateCategory(string name)
         {
             var category = _context.Categories.Local.SingleOrDefault(c => c.Name == name);
@@ -98,6 +104,9 @@ namespace EavSandbox.Web.DataAccess.EntityFramework
             return category;
         }
 
+        /// <summary>
+        /// Gets attribute or creates new one.
+        /// </summary>
         private EntityAttribute GetOrCreateAttribute(string categoryName, string attributeName)
         {
             var category = GetOrCreateCategory(categoryName);

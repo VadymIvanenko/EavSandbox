@@ -5,7 +5,7 @@ using Newtonsoft.Json.Linq;
 
 namespace EavSandbox.Web.Controllers
 {
-    [Route("api/{controller}")]
+    [Route("api/{db}/{controller}")]
     [ApiController]
     public class EavController : ControllerBase
     {
